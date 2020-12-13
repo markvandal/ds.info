@@ -1,4 +1,4 @@
-# Why Free Virtual Belarussian Community
+# Why we parciticpate in Meta-Belarus Community
 1. We see that the representative democracy and related forms of goverment have often compromised themselves in most countries with weak civil societies.
 2. Representative democracy is a trade-off between the old authoritarian models and full democracy in wich small and united groups of people are able to push their agenda to the detriment of majority interests. 
 3. In such countries existing form of election can be compromised with falsifications and manipulations.

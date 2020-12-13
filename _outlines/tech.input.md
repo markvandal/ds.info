@@ -6,6 +6,7 @@
 2. [Hyperledger Fabric](https://www.hyperledger.org/use/fabric)
 3. [Liquid democracy platforms](https://www.redbridge.gov.uk/media/4987/liquid-democracy.pdf)
 4. [AEternity — platform that is used for LD](https://aeternity.com)
+5. [Выбранная платформа Tendermint](https://tendermint.com)
 ## Crypto currencies
 1. [Cex.io exchange](https://cex.io)
 2. [Currency.com exchange](https://currency.com)
