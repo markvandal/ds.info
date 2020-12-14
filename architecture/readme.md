@@ -22,33 +22,36 @@
 В реестр из коробки будет зашита функция регистрации через приглашения и кросс подтверждения, скорее как способ бутстрапа и как возможность работать автономно в случае какого либо колапса внешних систем или же потери к ним доверия со стороны граждан.
 
 ## Базовые требования к алгоритмам (english)
-1. “6 handshakes” is a real thing: 1st level - 100 requests, 2 has 35 requests, 3 has 15 requests, 4 has 5 requests, 5 has 5 requests in 2 months, then +1 request every 2 months (max 5)
-2. People can be asked to set multiple geo locations. To mark the places where they have most friends.
-3. 1 level requests can not require confirmations
-    1. 1 level - 0 confirmation
-    2. 2 level - 1 confirmation
-    3. 3 level - 3 confirmations
-    4. 4+ - 5 confirmations
+1. “6 handshakes” is a real thing: 1st level - 150 requests, 2 has 50 requests, 3 has 15 requests, 4 has 5 requests, 5 has 5 requests in 2 months, then +1 request every 2 months (max 5)
+2. People can be asked to set their primary geo locations (e.g. registration). To mark the place where they can be confirmaed by neighbours.
+3. 1 level requests can be configured the following way
+    1. 1 level - 3 confirmation points, reconfirmation off
+    2. 2 level - 2 confirmation points, reconfirmation off
+    3. 3 level - 1 confirmation points, reconfirmation off
+    4. 4 level - 1 confirmation, reconfirmation on
+    5. 5 level - 0 confirmation, reconfirmation on
 4. Confirmation requires providing of private data
     1. Security implications in the yabat’ka context (can be turned into adoption mechanics) 
         1. Yebat’ka can be motivated to invite his or her real people 
-    2. Providing of private date is a private data protection condition for some countries (GDPR)
+    2. Providing of private data is a private data protection condition for some countries (GDPR)
         1. Private data can be deleted later
-5. Request of non belarusian citizens should be marked
+5. Request of non belarusian citizens should be marked (required to become validators, to support diaspors)
     1. Non Belarusian citizen can’t invite people
     2. Non Belarusian citizens can invite Non-belarusian citizens only
-    3. Non Belarusians can’t vote for services and participate in such voting
-    4. Non Belarusians can’t confirm Belarusians 
-    5. Non Belarusians has nationality marker, that define their scope of requests and confirmations
-    6. Non Belarusians required to become validators
+    3. Non Belarusian can’t vote for services and participate in such voting
+    4. Non Belarusian can’t confirm Belarusians 
+    5. Non Belarusian has nationality marker, that define their scope of requests and confirmations
     7. It’s a crime - to invite non Belarusian as Belarusian
 
 ## Система подтверждения аккаунтов
 1. Аккаунт создается и становится активным до высылки запроса на подтверждение
-   1. Без подтверждение человек не может голосовать за сервисы
-   2. Без подтверждения человек не может делать приглашения и высылать конфирмации
-   3. После подтверждения человек получает специальный бедж KYC который существует до следующего подтверджения
-2. Запрос на подтверждение высылается по гео по месту регистрации
-3. Получивший запрос на подтвреждение должен подтвердить, что тут живёт такой человек
-4. Раз в два месяца высылается новый запрос на подтверждение
-5. Сторонний сервис с соответствующими правами может выключить на аккаунте необходимость повторных подтверждений
+2. Подтверждений может быть получено больше 1го
+   1. 1 подтверждение - чтобы обозначать доверие \ недоверие сервису
+   2. 2 подтверждения - нужно чтобы подтверждать других людей
+   3. 3 подтверждения - нужно чтобы высылать приглашения
+   4. После первого подтверждения человек получает специальный бедж KYC со счетчиком подтверждений
+   5. Другие сервисы могут требовать больше подтверждений
+3. Запрос на подтверждение высылается по гео по месту регистрации
+4. Получивший запрос на подтвреждение должен подтвердить, что тут живёт такой человек
+5. Раз в два месяца высылается новый запрос на подтверждение
+6. Сторонний сервис с соответствующими правами может выключить на аккаунте необходимость повторных подтверждений
