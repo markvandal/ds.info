@@ -57,3 +57,69 @@
 5. Раз в два месяца высылается новый запрос на подтверждение
 6. Сторонний сервис с соответствующими правами может выключить на аккаунте необходимость повторных подтверждений
 7. Пригласивший не может подтверждать пришлашенного. Подтвердивший не может быть подтвержден подтвержденным.
+
+
+## Текущие развитие системы приглашений
+1. Создаём аккаунт с 100 супер приглашениями ✅ и 1000 стэйка ❓. 
+2. У аккаунта так же есть полный комплект приглашений:
+- 150 приглашений tire 0 ✅
+- 100 приглашений tire 1  ✅
+- 50 приглашений tire 2 ✅
+- 15 приглашений tire 3 ✅
+- 5 приглашений tire 4 ✅
+- 0 приглашений  tire 4 ✅
+2. Супер приглашения позволяют создавать аккаунты с полным комплектом приглашений. ✅
+3. Каждое следующее приглашение создаёт аккаунт без одного верхнего таера комплекта приглашений предыдущего таера. ✅
+4. Мы дадим возможность приглашать аккаунты типа служебный ⚠️
+
+### Создание Supper Identity:
+1. Создаем аккаунт c токенами ✅
+2. Создаём Identity для созданного аккаунта ✅
+3. Не забываем подписать транзакцию приватным ключом ✅
+
+### Создаем Service Identity:
+1. Создаем service приглашение ✅
+1.1. Проверяем что у создающего аккаунта есть супер приглашения ✅
+1.2 Тратим супер приглашение ✅
+1.3. Создаем пару публичный \ приватный ключ ✅
+1.4. → Вяжем приглашение к создающему аккаунту при принятии приглашения ✅
+1.5. Собираем пару id приглашения+приватный ключ от него ✅
+
+2. Принимаем приглашение на service identity ✅
+2.1. Генерируем публичный ключ из приватного ключа и проверяем наличие приглашения с указанным ID и приватным ключом ✅
+2.2. Проверяем что у приглашения еще нет IdentityID ✅
+2.3. Проверяем что сервис хочет зарегаться с уникальным Alias ❌
+2.4. Создаем аккаунт (мнемоники, приватный ключ, публичный ключ, адрес) ✅
+2.5. Зачисляем токены на аккаунт (у сервис аккаунта это 1 денюжка наверное) ⚠️
+2.6. Создаем Service Identity и вяжем её к аккаунту ✅
+2.7. Создаем запись в паспорте об алиасе сервиса
+
+
+## Signatures and Authentication
+Extenral services can request infromation to be signed by a citizen. The same approach should be used for authentication and authrization in external services.
+### Principles
+
+1. A service provides some public session id that is linked to a user alongside some secret session id — secret id is stored encrypted with user's public, that allows to prove ownership of the signature between specific user and the service, to avoid duplication of a public session id
+2. The user creates a signature record with this data and gets its id — it's required as a proof that the user that got data has assumed identity
+3. The user provides signature ID to the service
+4. The service checks that provided ID is really linked to the specific user identity in the blockchain
+5. To store and lookup such signature in the db we use additional mapping table
+    1. A map that maps a user to all his or her signatures 
+
+### Algorithms
+
+1. Auth Login
+    1. User sends to service his or her identity id
+    2. Service creates the following session info: service identity id, user identity id
+    3. Service also writes the secret key encrypted with user's public key
+    4. User changes auth status from open to signed
+        1. User adds a record to the identity → signature map
+2. Session Authentication
+    1. User sends signature id, identity id, and decrypted private session key to the service
+    2. Service checks if the signature has signed status
+    3. Service checks if availability is still fresh
+        1. If availability is no more than hour stale, user and service can invisibly update the signature ?
+            1. Update signature
+            2. Inform user about update
+            3. User resends request to the service with updated session key
+        2. Otherwise the service should return that the session is expired 
