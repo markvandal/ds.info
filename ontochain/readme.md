@@ -32,6 +32,7 @@ Every service in the core is a crypto-governance blockchain ledger. Main pecular
 
 ### Abstract Core Ledger 
 Every Core Service has common architecture:
+
 ![Abstract Core Ledger](./mbcore_abstract.png "Abstract Core Ledger")
 
 It has:
@@ -87,6 +88,7 @@ Right now we are in the process of development of Citizen Register ledger.
 Citizen Resiger Service is a basic service of Meta-Belarus core. It's main responsibility is identification of citizens and prevention of intrusions in the Meta-Belarus Core using malicious practices like: duplication of accounts and false-identity.
 
 ### Architecture of Citizen Register
+
 ![Citizen Register Architecture](./cr_architecture.png "Citizen Register Architecture")
 
 ### Main Use-Case of Citizen Register
