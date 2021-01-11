@@ -91,8 +91,87 @@ Citizen Resiger Service is a basic service of Meta-Belarus core. It's main respo
 
 ![Citizen Register Architecture](./cr_architecture.png "Citizen Register Architecture")
 
+### Stages of Citizen register development
+Citizen register as a blockchain should go to some development stages before it becomes fully operational.
+1. Genesis stage — when the blockchain starts and the first seeding accounts with extended number of invites appears;
+2. Seed stage — when first invited users come and validated via internal mechanisms of the Register. On this stage validators are limited by trusted number of infrastructure owners. Some updates of software can be done fast, the network can be managed by developers;
+3. Launch stage — when inernal mechanisms are replaced by extenral services; Some external gov services are choosen by citizens to manage identity registration process and to grant new validators their power;
+4. Freeflight stage - developers lose rights to gov functions; Register is govern by external services which receive rights from citizens; 
+
+### Mecahnisms of Citizen Identity 
+#### Invite users [Implemented on 01/07/2020 (US date)]
+On the seed stage of the Register launch new users can only be invited by existing citizens. This limits number of potential intruders, because invites are limited and can be restored only with time. Invites from the genesis stage are privileged and allows to create identities with different level of approve and number of invites depending on handshake distance from seed accounts.
+#### Confirm users
+To replace central gov who confirm identity of a user, the identity owner should receive a number of confirmations from random geo neighbours, who can phisicly or virtually validate new identity owner. Before appropriate number of confrimations is received the user can use influencing functions of the register: invites, confirmations, voting for gov rigths for external services etc.
+
+Confirmation are expired with time and need to be reclaimed to sustain received rights in the register. This make it harder for potential intruders to build bot-nets. Plus it allows additionaly identify clusters of intruder's identities.
+#### Consent administratiove rights for external services
+External service can requrest rights to govern the Register. If majority of active citizens grants these rights. The service can initiate administrative transactions for its account. Some share of citizens can downvote misbihaving service at any time to remove granted governance rights.
+#### Identity signatures
+Any external services can provide a document or a record to a citizen, that can be sgined by the citizen and included to his or her identity. It provides two main mechanisms of the register: identity confirmation by external services (KYC), and validated self-soverign idenity records, that can be consequentially used by 3rd service as input for decision (e.g. information about high education, special medial conditions, or trust for credit institutions, etc.)
+### Identity authentication
+Extenral service can authenticate and authorize users by their identity in the register in the oAuth like manner.
+#### Replacment of identity registration and verification process by external KYC
+This is a parially emergment property of the register mechanisms. Extenranl services with sepcial gov. rights can get permissions to create and verify identities around Ivnitation-Confirmations mechanism of the Register. It will make system more scalable in terms of user adoption and reduce ownership efforts of full-rights Idenitity in the citizen register. Presence of such a tool or tools is a prerequisite of lunch stage of the Register. 
+
 ### Main Use-Case of Citizen Register
+#### Positive flow from the citizen perspective — Seed stage 
+1. An existing citizen generates invite for a potential user;
+2. Potential user activate invite and gets his Identity and the Account as number of mnemonics and his or her private key and address. The account grants access to identity. At this state identity can be used to autheticate in any external service via authentication mecahnism.
+3. A Citizen can login to external service (e.g. voting system)
+4. The external service (e.g. voting service) can send a document for sign by the user to prove validity of the document (e.g. ballot paper)
+5. The citizen can sign the document
+
+#### Positive flow from the KYC enabled service perspective
+1. A citizen can request a service from an extenral entity (e.g. issueing a bank card)
+2. External entity can check if the citizen has appropiate KYC signature
+3. If the citizen doesn't have one, the service employees can verify the citizen and send a KYC badge to his or her identity for further automated checks
+4. Another service can request this or anohter KYC badge to prove citizen's idenity 
+
+#### Positive flow from the gov level service perspective
+Let's consider service that represnets Identity governance.
+1. A potential user makes a request to the service
+2. The service passes the user through KYC procedure
+3. The service create an Identity that doesn't require confirmation by other citizens and has rights to use internal register functions (vote for services, invite new citizens, etc.)
 
 ### Transactions of Citizen Register
+This section is represented by CLI Client of the Citizen Register Ledger
+#### Creates a new invite [IMPLEMENTED]
+Usage:
+`mbcorecr tx mbcorecr create-invite [Level: Level0/Level1/Level2/Level3/Level4/LevelSuper] [Identity Type: CITIZEN/FOREIGNER/DIASPORA_MEMBER/SERVICE] [flags]`
 
-### Further Development and additional Software
+* Level - Level of seed invite used. Non seed accounts have only level4 inivtes. It defines which set of invites and level of default confirmation will be received by the generated identity. 
+* Identity Type — defines the role of the identity in the sytem. CITIZEN is the target type for most cases.
+* --from - is a mandatory flag that defines an account private key from the local keychain.
+* .Response - json payload that is encrypted with "from" account public key in the ledger. Should be decrypted wiht "from" account private key to be used. Contains Invite ID and Activation sequnece (key).
+
+
+Positive test can be found [here](https://github.com/markvandal/metabelarus.core.cr/blob/mbcoorbot/dev/scripts/test_all.sh)
+
+#### Accept a new invite [IMPLEMENTED]
+Usage:
+`mbcorecr tx mbcorecr accept-invite [Invite Id] [Sequence] [flags]`
+
+* Invite Id, Sequence — id of invite and activation key
+* .Response — yaml payload with encrypted identity account info (mnemonics, address, public key private key), that is localy (with the key from local keychain) unencrypted.
+
+
+Positive test can be found [here](https://github.com/markvandal/metabelarus.core.cr/blob/mbcoorbot/dev/scripts/test_all.sh)
+
+#### Manage auth
+`mbcorecrd tx crsign [create/sign/revive/cancel]-auth`
+
+Set of commands that allows the service and the user establish trusted authentication in the service
+
+#### Manage signatures
+`mbcorecr tx crsign [create/sign/seal/reject/withdraw]-signature`
+
+Set of commands that allows to link documents and recoreds for the identity by an external service.
+
+### Further Development and Additional Software
+Right now the Citizen register requires the following major developments outside the functional scope of the ledger (and other core ledgers) itself:
+1. We need a wallet to sign transactions in the Meta-belarus ledgers. We consider some react-native based solution that is developed around javascript client sdk for cosmos/tendermint based ledgers. It will allow to create three types of wallet: 
+   1. mobile app; 
+   2. browser extension; 
+   3. integrated wallet for web services, that will allow to use private key without additionaly software instlled right on the web clients without risk of exposing private key and/or mnemonics.
+2. Cosmos SDK stacking module customization to support crypto-government blockchain economy.
